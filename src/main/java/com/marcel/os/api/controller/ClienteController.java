@@ -2,6 +2,7 @@ package com.marcel.os.api.controller;
 
 import com.marcel.os.domain.model.Cliente;
 import com.marcel.os.domain.repository.ClienteRepository;
+import com.marcel.os.domain.service.CadastroClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private CadastroClienteService cadastroClienteService;
 
     @GetMapping
     public List<Cliente> listar(){
@@ -38,7 +42,8 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente){
-        return clienteRepository.save(cliente);
+
+        return cadastroClienteService.salvar(cliente);
     }
 
     @PutMapping("/{clienteId}")
@@ -49,7 +54,7 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
         cliente.setId(clienteId);
-        clienteRepository.save(cliente);
+        cadastroClienteService.salvar(cliente);
         return ResponseEntity.ok(cliente);
     }
 
@@ -58,7 +63,7 @@ public class ClienteController {
         if (!clienteRepository.existsById(clienteId)){
             return ResponseEntity.notFound().build();
         }
-        clienteRepository.deleteById(clienteId);
+        cadastroClienteService.excluir(clienteId);
         return ResponseEntity.noContent().build();
     }
 }
