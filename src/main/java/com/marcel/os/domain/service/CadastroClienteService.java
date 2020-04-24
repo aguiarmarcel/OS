@@ -22,6 +22,7 @@ public class CadastroClienteService {
     }
 
     public void excluir(Long clienteId){
+
         clienteRepository.deleteById(clienteId);
     }
 }
