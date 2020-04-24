@@ -1,6 +1,7 @@
 package com.marcel.os.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.marcel.os.domain.ValidationGroup;
 import org.hibernate.validator.constraints.Currency;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -19,6 +21,8 @@ public class OrdemServico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Valid
+    @ConvertGroup(from = Default.class, to = ValidationGroup.ClienteId.class)
     @NotNull
     @ManyToOne
     private Cliente cliente;
