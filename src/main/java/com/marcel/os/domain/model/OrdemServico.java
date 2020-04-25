@@ -3,6 +3,8 @@ package com.marcel.os.domain.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class OrdemServico {
@@ -19,9 +21,12 @@ public class OrdemServico {
 
     @Enumerated(EnumType.STRING)
     private StatusOrdemServico status;
-    private OffsetDateTime dataAbertura;
 
+    private OffsetDateTime dataAbertura;
     private OffsetDateTime dataFinalizacao;
+
+    @OneToMany(mappedBy = "ordemServico")
+    private List<Comentario> comentarios = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -77,6 +82,14 @@ public class OrdemServico {
 
     public void setDataFinalizacao(OffsetDateTime dataFinalizacao) {
         this.dataFinalizacao = dataFinalizacao;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 
     @Override
