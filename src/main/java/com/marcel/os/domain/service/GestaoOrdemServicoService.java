@@ -43,10 +43,15 @@ public class GestaoOrdemServicoService {
         ordemServicoRepository.deleteById(ordemServicoId);
     }
 
+    public void finalizar(Long ordemServicoId){
+        OrdemServico ordemServico = buscar(ordemServicoId);
+        ordemServico.finalizar();
+        ordemServicoRepository.save(ordemServico);
+    }
+
     public Comentario adicionarComentario(Long ordemServicoId, String descricao){
 
-        OrdemServico ordemServico = ordemServicoRepository.findById(ordemServicoId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Ordem de Serviço não encontrada."));
+        OrdemServico ordemServico = buscar(ordemServicoId);
 
         Comentario comentario = new Comentario();
         comentario.setDataEnvio(OffsetDateTime.now());
@@ -54,5 +59,12 @@ public class GestaoOrdemServicoService {
         comentario.setOrdemServico(ordemServico);
 
         return comentarioRepository.save(comentario);
+    }
+
+    //Método usado em dois outros métodos. Então, crei esse
+    // para ser usado nos outros dois e não repetir o código.
+    private OrdemServico buscar(Long ordemServicoId) {
+        return ordemServicoRepository.findById(ordemServicoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Ordem de Serviço não encontrada."));
     }
 }

@@ -1,5 +1,7 @@
 package com.marcel.os.domain.model;
 
+import com.marcel.os.domain.exception.NegocioException;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -105,5 +107,21 @@ public class OrdemServico {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    public Boolean podeSerFinalizada(){
+        return StatusOrdemServico.ABERTA.equals(getStatus());
+    }
+
+    public Boolean naoPodeSerFinalizada(){
+        return !podeSerFinalizada();
+    }
+
+    public void finalizar() {
+        if (naoPodeSerFinalizada()){
+            throw new NegocioException("Ordem de Serviço não pode ser finalizada.");
+        }
+        setStatus(StatusOrdemServico.FINALIZADA);
+        setDataFinalizacao(OffsetDateTime.now());
     }
 }
