@@ -1,18 +1,7 @@
 package com.marcel.os.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.marcel.os.domain.ValidationGroup;
-import org.hibernate.validator.constraints.Currency;
-
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -22,26 +11,16 @@ public class OrdemServico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Valid
-    @ConvertGroup(from = Default.class, to = ValidationGroup.ClienteId.class)
-    @NotNull
     @ManyToOne
     private Cliente cliente;
-    @NotBlank
-    @Size(max = 300)
-    private String descricao;
 
-    @NotNull
+    private String descricao;
     private BigDecimal preco;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
     private StatusOrdemServico status;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private OffsetDateTime dataAbertura;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private OffsetDateTime dataFinalizacao;
 
     public Long getId() {
