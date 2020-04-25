@@ -1,5 +1,6 @@
 package com.marcel.os.domain.service;
 
+import com.marcel.os.domain.exception.EntidadeNaoEncontradaException;
 import com.marcel.os.domain.exception.NegocioException;
 import com.marcel.os.domain.model.Cliente;
 import com.marcel.os.domain.model.Comentario;
@@ -45,7 +46,7 @@ public class GestaoOrdemServicoService {
     public Comentario adicionarComentario(Long ordemServicoId, String descricao){
 
         OrdemServico ordemServico = ordemServicoRepository.findById(ordemServicoId)
-                .orElseThrow(() -> new NegocioException("Ordem de Serviço não encontrada."));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Ordem de Serviço não encontrada."));
 
         Comentario comentario = new Comentario();
         comentario.setDataEnvio(OffsetDateTime.now());
